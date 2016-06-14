@@ -6,18 +6,13 @@ var helpers = require('../utils/helpers');
 var Parent = React.createClass({
   getInitialState: function(){
     return {
-      image: '',
-      count: 99999,
-      addrCount: 0,
-      multplrCount: 0,
+      clicks: 0
     }
   },
   handleClick: function(){
     console.log("You clicked a button on the parent!");
     this.setState({
-      count: this.state.count + 1,
-      addrCount: this.state.count + 5,
-      multplrCount: this.state.count * 5
+      clicks: this.state.clicks + 1
     });
   },
   render: function(){
@@ -31,10 +26,10 @@ var Parent = React.createClass({
         </div>
 
         <div>
-          <Rndmr rndmrCount={this.state.count} />
-          <Addr addrCount={this.state.addrCount}/>
-          <Multplr multplrCount={this.state.multplrCount} />
-          <Imgr image={this.state.image}/>
+          <Rndmr    clicks={this.state.clicks} />
+          <Addr     clicks={this.state.clicks} />
+          <Multplr  clicks={this.state.clicks} />
+          <Imgr     clicks={this.state.clicks} />
         </div>
       </div>
     )
@@ -48,13 +43,13 @@ var Rndmr = React.createClass({
     }
   },
   getRandomNumber: function(){
-    var randomNumber = Math.floor(Math.random() * this.props.rndmrCount);
+    var randomNumber = Math.floor(Math.random() * 999999);
     this.setState({
       randomNumber: randomNumber
     });
   },
   componentWillReceiveProps: function() {
-    console.log('Rndmr received props');
+    console.log('Rndmr received clicks');
     this.getRandomNumber();
   },
   render: function() {
@@ -74,6 +69,21 @@ var Rndmr = React.createClass({
 });
 
 var Addr = React.createClass({
+  getInitialState: function(){
+    return {
+      sum: 0
+    }
+  },
+  getSum: function(){
+    var sum = this.props.clicks + 5;
+    this.setState({
+      sum: sum
+    });
+  },
+  componentWillReceiveProps: function() {
+    console.log('Addr received clicks');
+    this.getSum();
+  },
   render: function() {
     return(
       <div className="col-sm-3">
@@ -81,7 +91,7 @@ var Addr = React.createClass({
           <div className="panel-heading">Addr</div>
           <div className="panel-body">
 
-            {this.props.addrCount}
+            {this.state.sum}
             
           </div>
         </div>
@@ -91,6 +101,21 @@ var Addr = React.createClass({
 });
 
 var Multplr = React.createClass({
+  getInitialState: function(){
+    return {
+      product: 0
+    }
+  },
+  getProduct: function(){
+    var product = this.props.clicks * 5;
+    this.setState({
+      product: product
+    });
+  },
+  componentWillReceiveProps: function() {
+    console.log('Multplr received clicks');
+    this.getProduct();
+  },
   render: function() {
     return(
       <div className="col-sm-3">
@@ -98,7 +123,7 @@ var Multplr = React.createClass({
           <div className="panel-heading">Multplr</div>
           <div className="panel-body">
 
-            {this.props.multplrCount}
+            {this.state.product}
             
           </div>
         </div>
@@ -114,7 +139,7 @@ var Imgr = React.createClass({
     }
   },
   componentWillReceiveProps: function(){
-    console.log('Imgr received props!');
+    console.log('Imgr received clicks');
     /*helpers.getRandomImage()
       .then(function(result){
         console.log(result.images);
@@ -123,9 +148,6 @@ var Imgr = React.createClass({
           randomImageURL: ''
         })
       }.bind(this));*/
-  },
-  componentDidUpdate: function(prevState, nextState){
-    console.log('Imgr mounted!');
   },
   render: function(){
     return(
