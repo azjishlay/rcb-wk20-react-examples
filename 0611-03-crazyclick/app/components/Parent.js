@@ -140,14 +140,13 @@ var Imgr = React.createClass({
   },
   componentWillReceiveProps: function(){
     console.log('Imgr received clicks');
-    /*helpers.getRandomImage()
+    helpers.getRandomImage()
       .then(function(result){
-        console.log(result.images);
-        console.log(result.embed_url);
+        console.log(result.result);
         this.setState({
-          randomImageURL: ''
+          randomImageURL: result.result
         })
-      }.bind(this));*/
+      }.bind(this));
   },
   render: function(){
     return(
@@ -156,7 +155,7 @@ var Imgr = React.createClass({
           <div className="panel-heading">Imgr</div>
           <div className="panel-body">
 
-            Some content here
+            <img src={this.state.randomImageURL} width="100%"/>
             
           </div>
         </div>
